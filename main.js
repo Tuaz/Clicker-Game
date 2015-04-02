@@ -7,10 +7,11 @@ $(document).ready(function() {
     $("#enemy").click(function() {
     Game.enemyHealth --;
         $("#enemy-health").html(Game.enemyHealth);
-        if (Game.enemyHealth == 0){
-            Game.Enemy();
-        }
+//        if (Game.enemyHealth == 0){
+//            Game.Enemy();
+//        }
 });
+    Game.Update();
 });
 
 Game = {};
@@ -22,6 +23,17 @@ Game.Enemy = function (){
     $("#enemy-health").html(this.enemyHealth);
     
     
+}
+
+Game.Update = function(){
+    
+    if(Game.enemyHealth == 0){
+        Game.Enemy();
+    }
+    
+    if (document.hasFocus()){
+        setTimeout(Game.Update, 1000);
+    }
 }
 
 
