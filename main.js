@@ -1,6 +1,6 @@
 $(document).ready(function() { 
-    var heroName = prompt("Please enter your Hero name","Bobby");   
-    $("#hero-name").html(heroName);
+//    var heroName = prompt("Please enter your Hero name","Bobby");   
+    $("#hero-name").html("heroName");
     
 
     Game.Hero();
@@ -49,14 +49,25 @@ Game.Enemy = function (){
     $("#enemy-health").css("width", 100 +"%");
 }
 
+Game.RollItem = function () {
+    
+    var roll = Math.floor(Math.random() * 1001);
+    if(roll == 500){
+        alert(roll);
+    }
+
+}
+
 Game.Update = function(){
+    
+    
     Game.UpdateGUI();    
     
     Game.CalculateHeroDps();
     
     if (Game.ememyCurrentHp <= 0){
         Game.heroExp++;
-        
+//        Game.RollItem();
         Game.Enemy();
         }
     
