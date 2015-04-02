@@ -2,13 +2,19 @@ $(document).ready(function() {
     var heroName = prompt("Please enter your Hero name","Bobby");   
     $("#hero-name").html(heroName);
     
-    Game.Enemy();
+
     Game.Hero();
+    Game.Enemy();
+    
     Game.Update();
     
     $("#enemy").click(function() {
-        Game.enemyHealth -= Game.clickpower;
-        $("#enemy-health").html(Game.enemyHealth);      
+        Game.ememyCurrentHp -= Game.clickpower;
+        $("#enemy-health").html(Game.ememyCurrentHp);
+        var enemyHpPercent = Game.ememyCurrentHp / Game.ememyMaxHp *100;
+        var hpBarWidth = $("#enemy-health").width() * enemyHpPercent;
+        $("#enemy-health").css("width", enemyHpPercent +"%");
+        
     });
 });
 
@@ -16,6 +22,7 @@ $(document).ready(function() {
 Game = {};
 
 Game.fps = 30;
+
 
 Game.Hero = function (){
     this.heroExp = 0;
@@ -25,14 +32,16 @@ Game.Hero = function (){
 }
 
 Game.Enemy = function (){
-    this.enemyHealth = 10;
-    $("#enemy-health").html(this.enemyHealth); 
+    this.ememyCurrentHp = 10;
+    this.ememyMaxHp = 10;
+    $("#enemy-health").html(this.ememyCurrentHp); 
+    $("#enemy-health").css("width", 100 +"%");
 }
 
 Game.Update = function(){
     
-    if (Game.enemyHealth == 0){
-        $("#hero-exp").html(Game.heroExp++);
+    if (Game.ememyCurrentHp == 0){
+        $("#hero-exp").html(++Game.heroExp);
         Game.Enemy();
         }
     
