@@ -70,44 +70,44 @@
 }
 
 .tab-links {
-	margin: 10px 0 0 0;
-	padding: 0;
+    margin: 10px 0 0 0;
+    padding: 0;
 }
 .tab-links:after {
-	display: block;
-	clear: both;
-	content: "";
+    display: block;
+    clear: both;
+    content: "";
 }
 .tabs .tab-links li {
-	margin: 0 5px;
-	float: left;
-	list-style: none;
+    margin: 0 5px;
+    float: left;
+    list-style: none;
 }
 .tabs .tab-links li:first-child {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 .tabs .tab-links li:last-child {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 .tabs .tab-links a {
-	padding: 4px 15px;
-	display: inline-block;
-	border-radius: 3px 3px 0 0;
-	background-color: #7fb5da;
-	transition: all linear 0.15s;
-	text-decoration: none;
+    padding: 4px 15px;
+    display: inline-block;
+    border-radius: 3px 3px 0 0;
+    background-color: #7fb5da;
+    transition: all linear 0.15s;
+    text-decoration: none;
 }
 .tabs .tab-links a:hover {
-	background-color: #a7cce5;
+    background-color: #a7cce5;
 }
 .tabs .tab-content {
-	padding: 15px;
-	background-color: coral;
+    padding: 15px;
+    background-color: coral;
 }
 .tabs .tab-content .tab {
-	display:none;
-	min-height: 200px;
+    display:none;
+    min-height: 200px;
 }
 .tabs .tab-content .tab.active {
-	display:block;
+    display:block;
 }
