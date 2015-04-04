@@ -69,6 +69,12 @@ Game.RollItem = function () {
 
 }
 
+Game.LevelUp = function() {
+    Game.heroLvl++;
+    Game.heroExp = 0;
+    Game.Save();
+}
+
 Game.Update = function(){
     
     
@@ -83,8 +89,7 @@ Game.Update = function(){
         }
     
     if(Game.heroExp == Game.expToLvl){
-        Game.heroLvl++;
-        Game.heroExp = 0;
+        Game.LevelUp();
     }
     
     setTimeout(Game.Update, 1000 / Game.fps);
