@@ -7,6 +7,7 @@ $(document).ready(function() {
     Game.Enemy();
     
     Game.Update();
+    Game.Autosave();
     
     $("#enemy").click(function() {
         Game.ememyCurrentHp -= Game.clickpower;
@@ -20,7 +21,7 @@ $(document).ready(function() {
         $(".tabs " + tabID).show().siblings().hide();
         $(this).parent("li").addClass("active").siblings().removeClass("active");
     });
-	
+
 });
 
 
@@ -30,11 +31,13 @@ Game.fps = 30;
 
 
 Game.Hero = function (){
-    this.heroExp = 0;
-    this.clickpower = 1;
-    this.dps = 2;
-    this.heroLvl = 1;
-    this.expToLvl = 10;
+    var savedata = Game.Load();
+    // Use data from savedata otherwise use default values
+    this.heroExp = savedata.heroExp || 0;
+    this.clickpower = savedata.clickpower || 1;
+    this.dps = savedata.dps || 2;
+    this.heroLvl = savedata.heroLvl || 1;
+    this.expToLvl = savedata.expToLvl || 10;
     
     $("#hero-level").html(this.heroLvl+ "")
     $("#hero-exp").html(this.heroExp + " / "+ Game.expToLvl);
@@ -96,4 +99,27 @@ Game.UpdateGUI = function(){
     
     $("#hero-level").html(Game.heroLvl);
     $("#hero-exp").html(Game.heroExp + " / "+ Game.expToLvl);
+}
+
+Game.Load = function() {
+    // Get save data from localStorage or return an empty object
+    return JSON.parse(localStorage.getItem("hero")) || {};
+}
+
+Game.Save = function() {
+    var hero = {
+        heroExp: Game.heroExp,
+        clickpower: Game.clickpower,
+        dps: Game.dps,
+        heroLvl: Game.heroLvl,
+        expToLvl: Game.expToLvl
+    };
+    // Store Hero values as JSON in localStorage
+    localStorage.setItem("hero", JSON.stringify(hero));
+}
+
+Game.Autosave = function() {
+    Game.Save();
+    // Autosave every 60 seconds
+    Game.savetimer = setTimeout(Game.Autosave, 1000 * 60);
 }
