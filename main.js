@@ -1,4 +1,4 @@
-$(document).ready(function() { 
+$(document).ready(function () {
 //    var heroName = prompt("Please enter your Hero name","Bobby");   
     $("#hero-name").html("heroName");
     
@@ -9,13 +9,13 @@ $(document).ready(function() {
     Game.Update();
     Game.Autosave();
     
-    $("#enemy").click(function() {
+    $("#enemy").click(function () {
         Game.ememyCurrentHp -= Game.clickpower;
         
         
     });
 
-    $(".tabs .tab-links a").on("click", function(e) {
+    $(".tabs .tab-links a").on("click", function (e) {
         e.preventDefault();
         var tabID = e.target.getAttribute("href");
         $(".tabs " + tabID).show().siblings().hide();
@@ -30,7 +30,7 @@ Game = {};
 Game.fps = 30;
 
 
-Game.Hero = function (){
+Game.Hero = function () {
     var savedata = Game.Load();
     // Use data from savedata otherwise use default values
     this.heroExp = savedata.heroExp || 0;
@@ -39,21 +39,22 @@ Game.Hero = function (){
     this.heroLvl = savedata.heroLvl || 1;
     this.expToLvl = savedata.expToLvl || 10;
     
-    $("#hero-level").html(this.heroLvl+ "")
-    $("#hero-exp").html(this.heroExp + " / "+ Game.expToLvl);
+    
+    $("#hero-level").html(this.heroLvl + "")
+    $("#hero-exp").html(this.heroExp + " / " + Game.expToLvl);
     
     $(".hero").css("height", "auto");
-}
+};
 
-Game.CalculateHeroDps = function(){
-    if(Game.dps > 0){
+Game.CalculateHeroDps = function () {
+    if (Game.dps > 0) {
         Game.ememyCurrentHp -= Game.dps / 1000 * Game.fps;
         var i = Math.round(Game.ememyCurrentHp);
         $("#enemy-health").html(i);
     }
-}
+};
 
-Game.Enemy = function (){
+Game.Enemy = function () {
     this.ememyCurrentHp = 10;
     this.ememyMaxHp = 10;
     $("#enemy-health").html(this.ememyCurrentHp); 
@@ -62,12 +63,31 @@ Game.Enemy = function (){
 
 Game.RollItem = function () {
     
+    //list of slots to roll
+    var itemSlots = ['Head','Chest','Weapon'];
+    //list of stats to roll
+    var itemStats = ['Click Power','Dps']
+    
+    // creating a item object
+    var item = new Object();
+    // rolling slot from list and adding to item object
+    item.slot = itemSlots[Math.floor(Math.random() * itemSlots.length)];
+    
     var roll = Math.floor(Math.random() * 1001);
-    if(roll == 500){
-        alert(roll);
+    
+    if(roll < 500){
+        //rolling stat from list and adding to item object
+        item.statOne = itemStats[Math.floor(Math.random() * itemStats.length)];
+        // adding value to stat one
+        item.statOneValue = 10;
     }
+    
+    
+//    if(roll == 500){
+//        alert(roll);
+//    }
 
-}
+};
 
 Game.LevelUp = function() {
     Game.heroLvl++;
@@ -82,36 +102,36 @@ Game.Update = function(){
     
     Game.CalculateHeroDps();
     
-    if (Game.ememyCurrentHp <= 0){
+    if (Game.ememyCurrentHp <= 0) {
         Game.heroExp++;
 //        Game.RollItem();
         Game.Enemy();
         }
     
-    if(Game.heroExp == Game.expToLvl){
+    if (Game.heroExp === Game.expToLvl) {
         Game.LevelUp();
     }
     
     setTimeout(Game.Update, 1000 / Game.fps);
-}
+};
 
-Game.UpdateGUI = function(){
+Game.UpdateGUI = function () {
     
     
     $("#enemy-health").html(Game.ememyCurrentHp);
-    var enemyHpPercent = Game.ememyCurrentHp / Game.ememyMaxHp *100;
-    $("#enemy-health").css("width", enemyHpPercent +"%");
+    var enemyHpPercent = Game.ememyCurrentHp / Game.ememyMaxHp * 100;
+    $("#enemy-health").css("width", enemyHpPercent + "%");
     
     $("#hero-level").html(Game.heroLvl);
-    $("#hero-exp").html(Game.heroExp + " / "+ Game.expToLvl);
-}
+    $("#hero-exp").html(Game.heroExp + " / " + Game.expToLvl);
+};
 
-Game.Load = function() {
+Game.Load = function () {
     // Get save data from localStorage or return an empty object
     return JSON.parse(localStorage.getItem("hero")) || {};
-}
+};
 
-Game.Save = function() {
+Game.Save = function () {
     var hero = {
         heroExp: Game.heroExp,
         clickpower: Game.clickpower,
@@ -121,10 +141,10 @@ Game.Save = function() {
     };
     // Store Hero values as JSON in localStorage
     localStorage.setItem("hero", JSON.stringify(hero));
-}
+};
 
-Game.Autosave = function() {
+Game.Autosave = function () {
     Game.Save();
     // Autosave every 60 seconds
     Game.savetimer = setTimeout(Game.Autosave, 1000 * 60);
-}
+};
